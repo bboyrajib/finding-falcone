@@ -1,0 +1,16 @@
+.jumbotron{
+    background-color: rgb(16, 15, 36);
+    padding: 2rem 1rem;
+}
+
+.greenText{
+    color: #03c9a9;
+}
+
+.whiteText{
+    color: #ffffff;
+}
+
+.pinkText{
+    color: #e83e8c;
+}
