@@ -15,9 +15,10 @@ class FinalDestination extends Component {
        ],
        vehicles:[],
        disabled:true,
-       totalTime:0
+       totalTime:0,
     }
 
+    originalVehicles=[];
     originalPlanetList=[];
 
 
@@ -37,6 +38,7 @@ class FinalDestination extends Component {
             .then(res => res.json())
             .then((vehicles) => {
                 this.setState({vehicles});
+                this.originalVehicles.push(vehicles);
             });
     }
 
@@ -128,6 +130,11 @@ class FinalDestination extends Component {
         var destinations=[...this.state.destinations];
          destinations.map(d=> {
              if(d.name===e.target.name){
+                 if(d.vehicle===""){
+                        this.handleVehicleCountWhenNotSelected(e);
+                 }else{
+                    this.handleVehicleCountWhenSelected(e);
+                 }
                  d.vehicle = e.target.value;
              }
              return '';
@@ -135,6 +142,34 @@ class FinalDestination extends Component {
          this.setState({destinations});
          this.changeButtonState();
          this.handleTime(e);
+         
+    }
+
+    handleVehicleCountWhenNotSelected = (e) => {
+        var vehicles=[...this.state.vehicles]
+        vehicles.map(a=>{
+            if(e.target.value===a.name)
+                a.total_no-=1;
+            return '';
+        })
+        this.setState({vehicles});
+    }
+
+    handleVehicleCountWhenSelected = (e) => {
+        
+        var prevVehicle = this.state.destinations.filter(a=>{
+            return a.name===e.target.name;
+        })[0].vehicle;
+        var vehicles=[...this.state.vehicles]
+        vehicles.map(a=>{
+            if(e.target.value===a.name)
+                a.total_no-=1;
+            if(a.name===prevVehicle)
+                a.total_no+=1;
+            return '';
+        })
+        
+        this.setState({vehicles});
     }
 
     changeButtonState =() => {
@@ -176,12 +211,13 @@ class FinalDestination extends Component {
         let totalTime = 0;
         destinations.map(a=>{
             totalTime+=a.timeTaken
+            return '';
         })
         this.setState({totalTime});
     }
     
     render() { 
-        
+    
         return ( 
             <React.Fragment>
             
@@ -193,9 +229,9 @@ class FinalDestination extends Component {
                         <div id="main">
                             <div className="row text-center">
                                 {this.state.destinations.map(destination => 
-                                <div className="col">
+                                <div key={destination.id} className="col">
                                     <Destination planets={this.state.planets} onChange={this.handleChange} destinationProps={destination} name={destination.name} key={destination.id} id={destination.id} />
-                                        {destination.isSelected?<Vehicle onChange={this.handleVehicleChange} destinationProps={destination}/>:null}
+                                        {destination.isSelected?<Vehicle vehicleCount={this.state.vehicles} onChange={this.handleVehicleChange} destinationProps={destination}/>:null}
                                 </div>
                                         )}
                 
