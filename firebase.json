@@ -1,0 +1,10 @@
+{
+  "hosting": {
+    "public": "finding-falcone",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  }
+}
