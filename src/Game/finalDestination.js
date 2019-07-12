@@ -2,19 +2,20 @@ import React, { Component } from 'react';
 import Destination from './destination';
 import './destination.css';
 import Vehicle from './vehicle'
-import {BrowserRouter as Router, Switch, Route, Link} from 'react-router-dom'
+import {Link} from 'react-router-dom'
 
 class FinalDestination extends Component {
     state = { 
        planets:[],
        destinations: [
-           {id:"One",name:"planetOne",destination:"----",vehicle:"",timeTaken:"",isSelected:false,eligibleVehicles:[]},
-           {id:"Two",name:"planetTwo",destination:"----",vehicle:"",timeTaken:"",isSelected:false,eligibleVehicles:[]},
-           {id:"Three",name:"planetThree",destination:"----",vehicle:"",timeTaken:"",isSelected:false,eligibleVehicles:[]},
-           {id:"Four",name:"planetFour",destination:"----",vehicle:"",timeTaken:"",isSelected:false,eligibleVehicles:[]}
+           {id:"One",name:"planetOne",destination:"----",vehicle:"",timeTaken:0,isSelected:false,eligibleVehicles:[]},
+           {id:"Two",name:"planetTwo",destination:"----",vehicle:"",timeTaken:0,isSelected:false,eligibleVehicles:[]},
+           {id:"Three",name:"planetThree",destination:"----",vehicle:"",timeTaken:0,isSelected:false,eligibleVehicles:[]},
+           {id:"Four",name:"planetFour",destination:"----",vehicle:"",timeTaken:0,isSelected:false,eligibleVehicles:[]}
        ],
        vehicles:[],
-       disabled:true
+       disabled:true,
+       totalTime:0
     }
 
     originalPlanetList=[];
@@ -71,12 +72,17 @@ class FinalDestination extends Component {
                   return planet.name!==e.target.value ;
              });
              this.setState({planets:remPlanets});
+
+            
          }
+         
          var destinations=[...this.state.destinations];
          destinations.map(d=> {
              if(d.name===e.target.name){
                  d.isSelected=true;
                  d.destination=e.target.value;
+                 d.vehicle="";
+                 d.timeTaken=0;
              }
              return '';
          });
@@ -85,7 +91,7 @@ class FinalDestination extends Component {
         let planet = this.state.planets.filter(planet => {
             return planet.name===e.target.value;
         });
-         this.handleVehicles(planet, e);
+        this.handleVehicles(planet, e);
 
     }
 
@@ -106,12 +112,14 @@ class FinalDestination extends Component {
     handleReset = () => {
         this.setState({planets:[],
             destinations: [
-                {id:"One",name:"planetOne",destination:"----",vehicle:"",timeTaken:"",isSelected:false},
-                {id:"Two",name:"planetTwo",destination:"----",vehicle:"",timeTaken:"",isSelected:false},
-                {id:"Three",name:"planetThree",destination:"----",vehicle:"",timeTaken:"",isSelected:false},
-                {id:"Four",name:"planetFour",destination:"----",vehicle:"",timeTaken:"",isSelected:false}
+                {id:"One",name:"planetOne",destination:"----",vehicle:"",timeTaken:0,isSelected:false},
+                {id:"Two",name:"planetTwo",destination:"----",vehicle:"",timeTaken:0,isSelected:false},
+                {id:"Three",name:"planetThree",destination:"----",vehicle:"",timeTaken:0,isSelected:false},
+                {id:"Four",name:"planetFour",destination:"----",vehicle:"",timeTaken:0,isSelected:false}
             ],
-            vehicles:[]});
+            vehicles:[],
+            disabled:true,
+            totalTime:0});
         this.callPlanetsAPI();
         this.callVehiclesAPI();
     }
@@ -126,6 +134,7 @@ class FinalDestination extends Component {
          });
          this.setState({destinations});
          this.changeButtonState();
+         this.handleTime(e);
     }
 
     changeButtonState =() => {
@@ -135,13 +144,51 @@ class FinalDestination extends Component {
         this.setState({disabled:!disabled});
     }
 
+    handleTime = (e) => {
+        
+        var desObj = this.state.destinations.filter(a => {
+            return a.name===e.target.name;
+        });
+        
+        var planet=desObj[0].destination;
+        var plObj = this.originalPlanetList[0].filter(a=>{
+            return planet===a.name;
+        });
+        var distance=plObj[0].distance;
+        
+        var vehicleObj=this.state.vehicles.filter(a=>{
+            return a.name===e.target.value
+        })
+        var speed=vehicleObj[0].speed;
+        var time=distance/speed;
+        var destinations=[...this.state.destinations];
+        destinations.map(a=>{
+            if(a.name===e.target.name)
+                a.timeTaken=time;
+                return '';
+        })
+        this.setState({destinations});
+        this.calculateTotalTime();
+    }
+
+    calculateTotalTime = () => {
+        var destinations=[...this.state.destinations];
+        let totalTime = 0;
+        destinations.map(a=>{
+            totalTime+=a.timeTaken
+        })
+        this.setState({totalTime});
+    }
     
     render() { 
         
         return ( 
             <React.Fragment>
+            
             <button id="reset" className="btn btn-danger float-right" onClick={this.handleReset} type="submit">Reset</button>
+            
                  <div className="container h-100 d-flex flex-column">
+                 <h3>Time taken: <span className="badge badge-warning">{this.state.totalTime}</span></h3>
                         <h1 className="text-center p-5">Select the planets you want to send vehicles to:</h1>
                         <div id="main">
                             <div className="row text-center">
@@ -157,7 +204,7 @@ class FinalDestination extends Component {
                     
                 </div>
                     <div className="row justify-content-center">
-                        <Link to={{pathname:"/success",state:this.state.destinations,fromGame:true}} >
+                        <Link disabled to={{pathname:"/success",state:this.state.destinations,fromGame:true,totalTime:this.state.totalTime}} >
                             <button disabled={this.state.disabled} className="btn btn-success">Find Falcone!</button>
                         </Link>
                     </div>

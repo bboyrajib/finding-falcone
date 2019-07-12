@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import './success.css';
-import {Link, Redirect} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 
 class Success extends Component {
     planetNames=[];
     vehicleNames=[];
     state={
     successMessage:'',
-    planet:""
+    planet:"",
+    totalTime:""
     };
     
     componentDidMount(){
@@ -20,6 +21,7 @@ class Success extends Component {
             return a.vehicle;
         })
         }
+        this.setState({totalTime: this.props.location.totalTime})
         this.getTokenAPI();
     }
     getTokenAPI=()=>{
@@ -54,7 +56,7 @@ class Success extends Component {
                 this.setState({successMessage:"Please re-initialize the game!"});
                 this.props.history.push('/');
             }else
-                data.status==="false"?this.setState({successMessage:"Sorry! You could not find Falcone!"}):this.setState({successMessage:"Congrats! You found Falcone!", planet:data.planet_name})
+                data.status==="false"?this.setState({successMessage:"Sorry! You could not find Falcone!"}):this.setState({successMessage:"Congrats! You found Falcone! King Shan is pleased!", planet:data.planet_name})
         })
     }
     render() { 
@@ -73,12 +75,12 @@ class Success extends Component {
                 </div>
                 <div className="row text-center">
                     <div className="col-md-12">
-                    {(planet!==null || planet!==undefined)&&(planet.length>0)?<h2 className="m-2">Planet - <code>{planet}</code></h2>:null}
+                    {(planet!==null || planet!==undefined)&&(planet.length>0)?<h2 className="m-2">Planet - <code className="badge badge-primary">{planet}</code></h2>:null}
                     </div>
                 </div>
                 <div className="row text-center">
                     <div className="col-md-12">
-                    {(planet!==null || planet!==undefined)&&(planet.length>0)?<h2 className="m-2">Time taken - <code>{planet}</code></h2>:null}
+                    {(planet!==null || planet!==undefined)&&(planet.length>0)?<h2 className="m-2">Time taken - <code className="badge badge-info">{this.state.totalTime}</code></h2>:null}
                     </div>
                 </div>
                 <div className="row justify-content-center">
