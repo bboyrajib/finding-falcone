@@ -1,13 +1,11 @@
 .footer-bg{
     background-color: #03c9a9;
-    margin: 1px;
 }
 
   
   footer {
     position: relative;
-    height: 100px;
-    margin-top: -100px;
+    height: 83px;
     clear: both;    
     width: 100%
   }

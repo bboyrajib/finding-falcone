@@ -1,8 +1,8 @@
 .container{
-    min-height: 100%;
+    min-height: 65vh;
 }
 
-#main-success{
-    padding-bottom: 120px;
+.back-btn{
+    margin-top: 50px;
 }
 

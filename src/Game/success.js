@@ -83,9 +83,9 @@ class Success extends Component {
                     {(planet!==null || planet!==undefined)&&(planet.length>0)?<h2 className="m-2">Time taken - <code className="badge badge-info">{this.state.totalTime}</code></h2>:null}
                     </div>
                 </div>
-                <div className="row justify-content-center">
+                <div className="row back-btn justify-content-center">
                 <Link to="/" >
-                    <button className="btn btn-success">Go-Back!</button>
+                    <button className="btn btn-lg btn-success">Play Again!</button>
                 </Link>
                 </div>
                 </div>

@@ -21,7 +21,6 @@ class FinalDestination extends Component {
     originalVehicles=[];
     originalPlanetList=[];
 
-
     callPlanetsAPI=()=>{
         fetch("https://findfalcone.herokuapp.com/planets")
             .then(res => res.json())
@@ -217,22 +216,24 @@ class FinalDestination extends Component {
     }
     
     render() { 
-    
+        
         return ( 
             <React.Fragment>
             
             <button id="reset" className="btn btn-danger float-right" onClick={this.handleReset} type="submit">Reset</button>
             
-                 <div className="container h-100 d-flex flex-column">
+                 <div className="myCont container h-100 d-flex flex-column">
                  <h3>Time taken: <span className="badge badge-warning">{this.state.totalTime}</span></h3>
                         <h1 className="text-center p-5">Select the planets you want to send vehicles to:</h1>
                         <div id="main">
-                            <div className="row text-center">
+                            <div className="row destination text-center">
                                 {this.state.destinations.map(destination => 
-                                <div key={destination.id} className="col">
+                                
+                                <div key={destination.id} style={!destination.isSelected?{height:'min-content'}:null} className="col myCard">
                                     <Destination planets={this.state.planets} onChange={this.handleChange} destinationProps={destination} name={destination.name} key={destination.id} id={destination.id} />
                                         {destination.isSelected?<Vehicle vehicleCount={this.state.vehicles} onChange={this.handleVehicleChange} destinationProps={destination}/>:null}
                                 </div>
+                                
                                         )}
                 
                 
@@ -241,7 +242,7 @@ class FinalDestination extends Component {
                 </div>
                     <div className="row justify-content-center">
                         <Link disabled to={{pathname:"/success",state:this.state.destinations,fromGame:true,totalTime:this.state.totalTime}} >
-                            <button disabled={this.state.disabled} className="btn btn-success">Find Falcone!</button>
+                            <button disabled={this.state.disabled} className="btn btn-lg btn-success">Find Falcone!</button>
                         </Link>
                     </div>
                 </div>

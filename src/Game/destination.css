@@ -1,13 +1,13 @@
 .container{
-    min-height: 100%;
+    min-height: 65vh;
 }
 
-#main{
-    padding-bottom: 100px;
+.myCont{
+    margin-bottom: 30px;
 }
 
 button{
-    margin-top:120px;
+    margin-top:auto;
 }
 
 #reset{
@@ -18,3 +18,15 @@ button{
 .vehicles{
     margin-left:70px;
 }
+
+.destination{
+    margin-bottom: 70px ;
+}
+
+.myCard{
+    margin-right: 10px;
+    padding: 10px;
+    background: #09c9a9;
+    border-radius: 10px;
+}
+
