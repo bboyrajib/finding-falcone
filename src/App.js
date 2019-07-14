@@ -12,6 +12,7 @@ function App() {
         <Switch>
         <Route path="/" exact component={FinalDestination}/>
         <Route path="/success" component={Success}/>
+        <Route path="*" component={FinalDestination}/>
         </Switch>
       </Router>
       <Footer />     
