@@ -16,7 +16,7 @@ button{
 }
 
 .vehicles{
-    margin-left:70px;
+    margin-left:10%;
 }
 
 .destination{
@@ -29,5 +29,6 @@ button{
     padding: 10px;
     background: #09c9a9;
     border-radius: 10px;
+    margin-bottom: 5px;
 }
 
