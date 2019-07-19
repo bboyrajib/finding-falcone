@@ -5,6 +5,7 @@ import Vehicle from './vehicle'
 import {Link} from 'react-router-dom'
 
 class FinalDestination extends Component {
+    
     state = { 
        planets:[],
        destinations: [
@@ -43,6 +44,8 @@ class FinalDestination extends Component {
 
     
     componentDidMount(){
+        // if(this.props.location.fromGame!==true)
+        //     this.props.history.push('/');
         this.callPlanetsAPI();
         this.callVehiclesAPI();
     }
@@ -241,9 +244,16 @@ class FinalDestination extends Component {
                     
                 </div>
                     <div className="row justify-content-center">
+                        <div className='findFalconeButtons'>
                         <Link disabled to={{pathname:"/success",state:this.state.destinations,fromGame:true,totalTime:this.state.totalTime}} >
                             <button disabled={this.state.disabled} className="btn btn-lg btn-success">Find Falcone!</button>
                         </Link>
+                        </div>
+                        <div className='findFalconeButtons'>
+                        <Link to={{pathname:"/",fromGame:true}} >
+                            <button className="btn btn-lg btn-success">Read Rules!</button>
+                        </Link>
+                        </div>
                     </div>
                 </div>
              </div>   

@@ -84,9 +84,16 @@ class Success extends Component {
                     </div>
                 </div>
                 <div className="row back-btn justify-content-center">
-                <Link to="/" >
+                <div className='successButtons'>
+                <Link to={{pathname:"/findFalcone",fromGame:true}}>
                     <button className="btn btn-lg btn-success">Play Again!</button>
                 </Link>
+                </div>
+                <div className='successButtons'>
+                <Link to={{pathname:"/",fromGame:true}} >
+                    <button className="btn btn-lg btn-success">Go Home!</button>
+                </Link>
+                </div>
                 </div>
                 </div>
             </div>
