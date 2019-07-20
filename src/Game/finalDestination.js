@@ -7,6 +7,7 @@ import {Link} from 'react-router-dom'
 class FinalDestination extends Component {
     
     state = { 
+       loading:true,
        planets:[],
        destinations: [
            {id:"One",name:"planetOne",destination:"----",vehicle:"",timeTaken:0,isSelected:false,eligibleVehicles:[]},
@@ -39,6 +40,7 @@ class FinalDestination extends Component {
             .then((vehicles) => {
                 this.setState({vehicles});
                 this.originalVehicles.push(vehicles);
+                this.setState({loading:false});
             });
     }
 
@@ -114,7 +116,8 @@ class FinalDestination extends Component {
     }
 
     handleReset = () => {
-        this.setState({planets:[],
+        this.setState({loading:true,
+            planets:[],
             destinations: [
                 {id:"One",name:"planetOne",destination:"----",vehicle:"",timeTaken:0,isSelected:false},
                 {id:"Two",name:"planetTwo",destination:"----",vehicle:"",timeTaken:0,isSelected:false},
@@ -223,7 +226,7 @@ class FinalDestination extends Component {
         return ( 
             <React.Fragment>
             
-            <button id="reset" className="btn btn-danger float-right" onClick={this.handleReset} type="submit">Reset</button>
+            <button id="reset" className="btn btn-danger float-right" onClick={this.handleReset} type="submit">{this.state.loading && <i className="fa fa-refresh fa-spin"></i>}  Reset</button>
             
                  <div className="myCont container h-100 d-flex flex-column">
                  <h3>Time taken: <span className="badge badge-warning">{this.state.totalTime}</span></h3>

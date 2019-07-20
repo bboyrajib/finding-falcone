@@ -3,9 +3,11 @@ import './success.css';
 import {Link} from 'react-router-dom';
 
 class Success extends Component {
+    
     planetNames=[];
     vehicleNames=[];
     state={
+    loading:true,
     successMessage:'',
     planet:"",
     totalTime:""
@@ -52,6 +54,7 @@ class Success extends Component {
             })
         }).then(res=>res.json())
         .then((data)=>{
+            this.setState({loading:false});
             if(data.status==="error" || data===undefined || this.props.location.fromGame!==true){
                 this.setState({successMessage:"Please re-initialize the game!"});
                 this.props.history.push('/');
@@ -70,7 +73,7 @@ class Success extends Component {
                 <div id="main-success">
                 <div className="row text-center">
                     <div className="col-md-12">
-                        <h1 className="text-center p-5">{this.state.successMessage}</h1> 
+                    {this.state.loading && <i className="fa fa-refresh fa-spin"></i>} <h1 className="text-center p-5">{this.state.successMessage}</h1> 
                     </div>
                 </div>
                 <div className="row text-center">
