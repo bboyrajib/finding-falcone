@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import Destination from './destination';
 import './destination.css';
-import Vehicle from './vehicle'
-import {Link} from 'react-router-dom'
+import Vehicle from './vehicle';
+import {Link} from 'react-router-dom';
 
 class FinalDestination extends Component {
     
@@ -29,6 +29,8 @@ class FinalDestination extends Component {
             .then((planets) => {
                 this.setState({planets});
                 this.originalPlanetList.push(planets);
+            }).catch(e=>{
+                setTimeout(this.callPlanetsAPI,5000);
             });
         
     }
@@ -41,6 +43,8 @@ class FinalDestination extends Component {
                 this.setState({vehicles});
                 this.originalVehicles.push(vehicles);
                 this.setState({loading:false});
+            }).catch(e=>{
+                setTimeout(this.callVehiclesAPI,5000);
             });
     }
 
@@ -226,7 +230,7 @@ class FinalDestination extends Component {
         return ( 
             <React.Fragment>
             
-            <button id="reset" className="btn btn-danger float-right" onClick={this.handleReset} type="submit">{this.state.loading && <i className="fa fa-refresh fa-spin"></i>}  Reset</button>
+            <button disabled={this.state.loading} id="reset" className="btn btn-danger float-right" onClick={this.handleReset} type="submit">{this.state.loading ? <i className="fa fa-refresh fa-spin"></i>:"Reset"}</button>
             
                  <div className="myCont container h-100 d-flex flex-column">
                  <h3>Time taken: <span className="badge badge-warning">{this.state.totalTime}</span></h3>

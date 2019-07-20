@@ -7,6 +7,7 @@ class Success extends Component {
     planetNames=[];
     vehicleNames=[];
     state={
+    isConnected:true,
     loading:true,
     successMessage:'',
     planet:"",
@@ -36,7 +37,10 @@ class Success extends Component {
         }).then(res => res.json())
         .then((data) => {
            this.findFalconeAPI(data.token,this.planetNames,this.vehicleNames);
-        })
+        }).catch(e=>{
+            this.setState({isConnected:false});
+            setTimeout(this.getTokenAPI,5000);
+        });
     }
 
     findFalconeAPI=(token,planetNames,vehicleNames)=>{
@@ -54,13 +58,15 @@ class Success extends Component {
             })
         }).then(res=>res.json())
         .then((data)=>{
-            this.setState({loading:false});
+            this.setState({loading:false,isConnected:true});
             if(data.status==="error" || data===undefined || this.props.location.fromGame!==true){
                 this.setState({successMessage:"Please re-initialize the game!"});
                 this.props.history.push('/');
             }else
                 data.status==="false"?this.setState({successMessage:"Sorry! You could not find Falcone!"}):this.setState({successMessage:"Congrats! You found Falcone! King Shan is pleased!", planet:data.planet_name})
-        })
+        }).catch(e=>{
+            setTimeout(this.findFalconeAPI,5000);
+        });
     }
     render() { 
         
@@ -73,7 +79,9 @@ class Success extends Component {
                 <div id="main-success">
                 <div className="row text-center">
                     <div className="col-md-12">
-                    {this.state.loading && <i className="fa fa-refresh fa-spin"></i>} <h1 className="text-center p-5">{this.state.successMessage}</h1> 
+                    
+                    {this.state.loading && <i className="fa fa-refresh fa-spin"></i>}{!this.state.isConnected?<span>&nbsp;&nbsp;&nbsp;Please wait while we try to connect...</span>:null}
+                    <h1 className="text-center p-5">{this.state.successMessage}</h1> 
                     </div>
                 </div>
                 <div className="row text-center">

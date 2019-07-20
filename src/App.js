@@ -5,10 +5,14 @@ import FinalDestination from './Game/finalDestination';
 import Success from './Game/success';
 import Home from './Game/home';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
+
+
 function App() {
+  
   return (
     <React.Fragment>
       <Header />
+      
       <Router>
         <Switch>
         <Route path="/" exact component={Home}/>

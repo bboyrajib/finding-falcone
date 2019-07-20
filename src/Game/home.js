@@ -13,8 +13,9 @@ import SpaceShip from './Resources/SpaceShip.png';
 import {Link} from 'react-router-dom';
 class Home extends Component {
     
-    state = {  }
+    
     render() { 
+        window.scrollTo(0,0);
         return ( 
             <div className="container">
                 <div className="row">
